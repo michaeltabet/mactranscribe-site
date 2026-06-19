@@ -33,12 +33,13 @@ const { id = 'get-started' } = Astro.props;
 <style>
   .cta-card {
     position: relative;
-    border: 1px solid var(--line);
+    border: 1px solid var(--line-strong);
     border-radius: var(--radius-xl);
     overflow: hidden;
-    background: linear-gradient(135deg, #10171a, #0a0d0f);
+    background: linear-gradient(135deg, #ffffff, #eefaf7);
     padding: clamp(2.4rem, 1.6rem + 3vw, 4rem);
     text-align: center;
+    box-shadow: var(--shadow-md);
   }
   /* teal→red aurora wash behind the CTA */
   .cta-card::before {
@@ -47,8 +48,8 @@ const { id = 'get-started' } = Astro.props;
     inset: 0;
     z-index: 0;
     background:
-      radial-gradient(55% 80% at 22% -10%, rgba(20, 184, 166, 0.24), transparent 60%),
-      radial-gradient(55% 80% at 82% 0%, rgba(244, 63, 94, 0.18), transparent 60%);
+      radial-gradient(55% 80% at 22% -10%, rgba(20, 184, 166, 0.16), transparent 60%),
+      radial-gradient(55% 80% at 82% 0%, rgba(244, 63, 94, 0.12), transparent 60%);
   }
   .cta-card > * {
     position: relative;

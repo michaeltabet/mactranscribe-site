@@ -97,7 +97,7 @@
   .mock {
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
-    background: linear-gradient(180deg, #0e1417, #0a0d0f);
+    background: linear-gradient(180deg, #ffffff, #f6faf9);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -117,7 +117,7 @@
     gap: 12px;
     padding: 11px 16px;
     border-bottom: 1px solid var(--line);
-    background: #10171a;
+    background: var(--surface-2);
     font-size: 12px;
   }
   .tag {
@@ -184,7 +184,7 @@
     place-items: center;
     border-radius: 5px;
     font-size: 10px;
-    color: var(--teal-300);
+    color: var(--teal-700);
     background: rgba(20, 184, 166, 0.14);
     border: 1px solid rgba(20, 184, 166, 0.28);
   }
@@ -231,10 +231,11 @@
   }
   .ans-card {
     position: relative;
-    background: linear-gradient(180deg, #121a1d, #0e1417);
+    background: #ffffff;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 13px;
+    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -256,7 +257,7 @@
     color: var(--faint);
   }
   .ans-card .gap {
-    color: var(--teal-300);
+    color: var(--teal-700);
     font-family: var(--font-mono);
     animation: blink 1.05s steps(2, start) infinite;
   }
@@ -273,7 +274,7 @@
     gap: 12px;
     padding: 16px;
     border-bottom: 1px solid var(--line);
-    background: #10171a;
+    background: var(--surface-2);
   }
   .avatar {
     width: 38px;
@@ -282,9 +283,9 @@
     display: grid;
     place-items: center;
     font-size: 18px;
-    color: var(--teal-300);
-    background: radial-gradient(120% 120% at 30% 20%, rgba(20, 184, 166, 0.32), rgba(244, 63, 94, 0.14));
-    border: 1px solid var(--line);
+    color: var(--teal-700);
+    background: radial-gradient(120% 120% at 30% 20%, rgba(20, 184, 166, 0.22), rgba(244, 63, 94, 0.12));
+    border: 1px solid var(--line-strong);
   }
   .mock-head strong {
     display: block;

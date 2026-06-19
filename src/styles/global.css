@@ -17,14 +17,14 @@ html {
 
 body {
   margin: 0;
-  /* Rich teal-tinted dark with ambient teal/red depth at top, middle AND bottom
-     — clearly dark-teal, never flat black. */
+  /* Bright, airy light with VERY subtle teal/red ambient depth at top, middle
+     AND bottom — clearly light, never dark. Faint teal-tinted off-white base. */
   background:
-    radial-gradient(1100px 720px at 84% -4%, rgba(20, 184, 166, 0.18), transparent 56%),
-    radial-gradient(900px 680px at -8% 16%, rgba(244, 63, 94, 0.10), transparent 52%),
-    radial-gradient(1000px 760px at 62% 50%, rgba(20, 184, 166, 0.10), transparent 54%),
-    radial-gradient(1100px 820px at 35% 100%, rgba(13, 148, 136, 0.14), transparent 58%),
-    linear-gradient(180deg, #0d2225 0%, #0c1e22 50%, #0b1a1e 100%);
+    radial-gradient(1100px 720px at 84% -4%, rgba(20, 184, 166, 0.1), transparent 56%),
+    radial-gradient(900px 680px at -8% 16%, rgba(244, 63, 94, 0.06), transparent 52%),
+    radial-gradient(1000px 760px at 62% 50%, rgba(20, 184, 166, 0.05), transparent 54%),
+    radial-gradient(1100px 820px at 35% 100%, rgba(13, 148, 136, 0.07), transparent 58%),
+    linear-gradient(180deg, #ffffff 0%, #f6faf9 50%, #eefaf7 100%);
   background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-sans);
@@ -49,8 +49,8 @@ img {
 }
 
 ::selection {
-  background: rgba(20, 184, 166, 0.32);
-  color: #fff;
+  background: rgba(20, 184, 166, 0.22);
+  color: var(--ink);
 }
 
 :focus-visible {
@@ -94,7 +94,7 @@ img {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.55;
+  opacity: 0.7;
   will-change: transform;
 }
 .glow::before {
@@ -136,8 +136,8 @@ img {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
+  opacity: 0.02;
+  mix-blend-mode: soft-light;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -197,16 +197,16 @@ img {
   transform: translateY(0);
 }
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.03);
+  background: #ffffff;
   border-color: var(--line-strong);
   color: var(--ink);
-  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-sm);
 }
 .btn-ghost:hover {
   transform: translateY(-2px);
-  border-color: var(--accent);
-  background: rgba(20, 184, 166, 0.1);
-  box-shadow: 0 10px 26px -16px rgba(20, 184, 166, 0.6);
+  border-color: var(--teal);
+  background: rgba(20, 184, 166, 0.08);
+  box-shadow: 0 12px 26px -16px rgba(20, 184, 166, 0.5);
 }
 .btn-ghost:active {
   transform: translateY(0);
@@ -266,24 +266,24 @@ section {
   letter-spacing: 0.01em;
   color: var(--dim);
   border: 1px solid var(--line-strong);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  background: linear-gradient(180deg, #ffffff, var(--surface-2));
   border-radius: 999px;
   padding: 6px 14px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: var(--shadow-sm);
 }
 .eyebrow .dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--good);
-  box-shadow: 0 0 0 4px rgba(63, 185, 80, 0.15);
+  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
 }
 
 code {
   font-family: var(--font-mono);
-  color: #cdd6e4;
+  color: var(--teal-700);
   background: var(--surface-2);
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--line);
   padding: 1px 5px;
   border-radius: 5px;
   font-size: 0.82em;

@@ -116,7 +116,7 @@
     position: relative;
     border-radius: var(--radius-lg);
     border: 1px solid var(--line-strong);
-    background: linear-gradient(180deg, #10151d, #0a0d12);
+    background: linear-gradient(180deg, #ffffff, #f6faf9);
     overflow: hidden;
     box-shadow: var(--shadow-card);
     transition: transform 380ms var(--ease-out-expo);
@@ -129,7 +129,7 @@
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
     z-index: 3;
   }
   .bar {
@@ -139,7 +139,7 @@
     gap: 8px;
     padding: 0 14px;
     border-bottom: 1px solid var(--line);
-    background: linear-gradient(180deg, #131923, #0f141c);
+    background: linear-gradient(180deg, #ffffff, #eef5f3);
   }
   .tl {
     display: flex;
@@ -177,9 +177,9 @@
     font-size: 10.5px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--good);
-    border: 1px solid #1e3a26;
-    background: #0e1a12;
+    color: var(--teal-700);
+    border: 1px solid rgba(13, 148, 136, 0.3);
+    background: rgba(20, 184, 166, 0.12);
     border-radius: 999px;
     padding: 3px 9px;
   }
@@ -188,7 +188,7 @@
     height: 6px;
     border-radius: 50%;
     background: var(--good);
-    box-shadow: 0 0 8px rgba(63, 185, 80, 0.8);
+    box-shadow: 0 0 8px rgba(13, 148, 136, 0.6);
     animation: pulse 1.8s var(--ease-out-expo) infinite;
   }
   @keyframes pulse {
@@ -210,7 +210,7 @@
   .ans {
     border-right: 1px solid var(--line);
     padding: 18px;
-    background: linear-gradient(180deg, #0c1016, #090c11);
+    background: linear-gradient(180deg, #f6faf9, #eef6f4);
   }
   .feed {
     padding: 18px;
@@ -234,12 +234,13 @@
   }
   .card {
     position: relative;
-    background: linear-gradient(180deg, #131925, #0f141c);
+    background: #ffffff;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 14px;
     margin-bottom: 12px;
     overflow: hidden;
+    box-shadow: var(--shadow-sm);
     transition:
       border-color var(--duration-normal) var(--ease-out-expo),
       transform var(--duration-normal) var(--ease-out-expo);
