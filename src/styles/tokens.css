@@ -7,11 +7,11 @@
  */
 :root {
   /* ---- surfaces ---- */
-  --bg: #080b0c;
-  --bg-2: #0c0f11;
-  --panel: #11161a;
-  --surface-1: #0e1417;
-  --surface-2: #0a0f11;
+  --bg: #0d2024;
+  --bg-2: #0e2428;
+  --panel: #11201f;
+  --surface-1: #0f1b1d;
+  --surface-2: #0c1618;
   --surface-3: #10171a;
   --surface-4: #151e22;
   --line: #1b262a;

@@ -17,7 +17,15 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
+  /* Rich teal-tinted dark with ambient teal/red depth at top, middle AND bottom
+     — clearly dark-teal, never flat black. */
+  background:
+    radial-gradient(1100px 720px at 84% -4%, rgba(20, 184, 166, 0.18), transparent 56%),
+    radial-gradient(900px 680px at -8% 16%, rgba(244, 63, 94, 0.10), transparent 52%),
+    radial-gradient(1000px 760px at 62% 50%, rgba(20, 184, 166, 0.10), transparent 54%),
+    radial-gradient(1100px 820px at 35% 100%, rgba(13, 148, 136, 0.14), transparent 58%),
+    linear-gradient(180deg, #0d2225 0%, #0c1e22 50%, #0b1a1e 100%);
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: var(--text-base);
