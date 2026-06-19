@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import PricingCards from '../components/PricingCards.astro';
+import { hasEnv } from '../lib/env';
+
+const session = Astro.locals.session;
+// PayPal alternative only shown when its plan is configured at runtime.
+const paypalEnabled = hasEnv('PAYPAL_CLIENT_ID', 'PAYPAL_PLAN_ID');
+---
+
+<Base title="Pricing — MacTranscribe" description="MacTranscribe Free vs Pro. Free forever on your own AI keys. Pro is $12/mo for hosted sync, the per-role practice console, and priority builds.">
+  <section class="head">
+    <div class="wrap">
+      <p class="kicker" data-reveal>Pricing</p>
+      <h2 data-reveal>One app. Two ways to run it.</h2>
+      <p class="lead" data-reveal>
+        MacTranscribe is free on your own AI keys — bring your model, keep your data. Pro unlocks the
+        hosted extras. Pay with card via Stripe, or use PayPal.
+      </p>
+      {
+        session?.isPro && (
+          <p class="active-badge">✓ You're on Pro — manage it from your <a href="/dashboard">dashboard</a>.</p>
+        )
+      }
+      <PricingCards live signedIn={!!session} paypalEnabled={paypalEnabled} />
+
+      <div class="faq" data-reveal-group>
+        <div class="qa" data-reveal>
+          <h3>What does "BYOK" mean?</h3>
+          <p>
+            Bring Your Own Keys. The copilot calls your AI provider with your API key — nothing routes
+            through us. The Free tier needs nothing but the app and your key.
+          </p>
+        </div>
+        <div class="qa" data-reveal>
+          <h3>How does Pro unlock?</h3>
+          <p>
+            After checkout we grant the <code>pro</code> role on your MacTranscribe account. Sign in
+            once in the app (or on this site) and Pro features light up.
+          </p>
+        </div>
+        <div class="qa" data-reveal>
+          <h3>Can I cancel?</h3>
+          <p>Any time. On cancellation your account drops back to Free at the end of the period.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-top: calc(var(--space-section) * 0.6);
+  }
+  .active-badge {
+    color: var(--good);
+    font-size: 14px;
+    margin: 8px 0 0;
+  }
+  .active-badge a {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  .faq {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 64px;
+  }
+  .qa {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, #0e131b, #0a0d12);
+    padding: 22px;
+    transition:
+      border-color var(--duration-normal) var(--ease-out-expo),
+      transform var(--duration-normal) var(--ease-out-expo);
+  }
+  .qa:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-3px);
+  }
+  .qa h3 {
+    font-size: 15px;
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+  .qa p {
+    font-size: 13.5px;
+    color: var(--dim);
+    line-height: 1.6;
+    margin: 0;
+  }
+  @media (max-width: 860px) {
+    .faq {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

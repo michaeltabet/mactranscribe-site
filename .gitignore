@@ -1,2 +1,15 @@
 node_modules/
 .DS_Store
+
+# build output
+dist/
+.astro/
+
+# env / secrets — never commit real values
+.env
+.env.*
+!.env.example
+
+# logs
+npm-debug.log*
+*.log

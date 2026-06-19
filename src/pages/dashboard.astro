@@ -1,0 +1,185 @@
+---
+import Base from '../layouts/Base.astro';
+import { DOWNLOAD_URL } from '../lib/constants';
+import { hasEnv } from '../lib/env';
+
+const session = Astro.locals.session;
+if (!session) {
+  return Astro.redirect('/login?returnTo=/dashboard');
+}
+
+const justUpgraded = Astro.url.searchParams.get('upgraded') === '1';
+const paypalEnabled = hasEnv('PAYPAL_CLIENT_ID', 'PAYPAL_PLAN_ID');
+
+// A simple deterministic license token derived from the user's subject. Real
+// license issuance lives in the app/backend; this gives Pro users something to
+// paste during the beta.
+const licenseSeed = session.sub || session.email;
+const license = `MT-PRO-${Buffer.from(licenseSeed).toString('base64url').slice(0, 18).toUpperCase()}`;
+---
+
+<Base title="Dashboard — MacTranscribe">
+  <section class="dash">
+    <div class="wrap">
+      {justUpgraded && <p class="banner ok" role="status">🎉 Payment received — you're on Pro. Welcome aboard.</p>}
+
+      <div class="head" data-reveal>
+        <div>
+          <p class="kicker">Your account</p>
+          <h2>{session.name ?? 'Welcome back'}</h2>
+          <p class="email">{session.email}</p>
+        </div>
+        <span class:list={['planbadge', session.isPro ? 'pro' : 'free']}>
+          {session.isPro ? '★ Pro' : 'Free'}
+        </span>
+      </div>
+
+      <div class="cards" data-reveal-group>
+        {
+          session.isPro ? (
+            <>
+              <article class="panel" data-reveal>
+                <h3>Your Pro license</h3>
+                <p class="muted">Paste this in the app under Settings → Account to unlock Pro features.</p>
+                <code class="license">{license}</code>
+              </article>
+              <article class="panel" data-reveal>
+                <h3>Download the latest build</h3>
+                <p class="muted">Notarized macOS app, Apple Silicon. Pro users get priority builds.</p>
+                <a class="btn btn-primary" href={DOWNLOAD_URL} rel="noopener">↓ Download for macOS</a>
+              </article>
+            </>
+          ) : (
+            <>
+              <article class="panel" data-reveal>
+                <h3>You're on the Free plan</h3>
+                <p class="muted">
+                  Live transcription, the copilot on your own keys, screen OCR, and the
+                  coding-assessment board — all free.
+                </p>
+                <a class="btn btn-primary" href="/pricing">Upgrade to Pro — $12/mo</a>
+                {paypalEnabled && (
+                  <a class="btn btn-ghost alt" href="/api/paypal/start">Upgrade with PayPal</a>
+                )}
+              </article>
+              <article class="panel" data-reveal>
+                <h3>Download the app</h3>
+                <p class="muted">The Free tier needs nothing but the app and your AI key.</p>
+                <a class="btn btn-ghost" href={DOWNLOAD_URL} rel="noopener">↓ Download for macOS</a>
+              </article>
+            </>
+          )
+        }
+      </div>
+
+      <p class="signout"><a href="/api/auth/logout">Sign out</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .dash {
+    padding-top: calc(var(--space-section) * 0.5);
+    min-height: 70vh;
+  }
+  .banner {
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  .banner.ok {
+    background: rgba(63, 185, 80, 0.1);
+    border: 1px solid rgba(63, 185, 80, 0.3);
+    color: #8be09a;
+  }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 28px;
+    margin-bottom: 28px;
+  }
+  .email {
+    color: var(--dim);
+    font-size: 14px;
+    margin: 4px 0 0;
+  }
+  .planbadge {
+    flex-shrink: 0;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+  }
+  .planbadge.pro {
+    color: #fff;
+    background: var(--accent-grad);
+    border-color: transparent;
+  }
+  .planbadge.free {
+    color: var(--dim);
+    background: var(--surface-1);
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .panel {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, #0f141c, #0b0e13);
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    box-shadow: var(--shadow-sm);
+    transition:
+      border-color var(--duration-normal) var(--ease-out-expo),
+      transform var(--duration-normal) var(--ease-out-expo);
+  }
+  .panel:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-3px);
+  }
+  .panel h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+  .muted {
+    color: var(--dim);
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+  }
+  .license {
+    font-size: 14px;
+    padding: 10px 14px;
+    width: 100%;
+    background: var(--bg);
+    border: 1px dashed var(--line-strong);
+    user-select: all;
+  }
+  .alt {
+    margin-top: 4px;
+  }
+  .signout {
+    margin-top: 40px;
+    font-size: 13px;
+  }
+  .signout a {
+    color: var(--faint);
+    text-decoration: underline;
+  }
+  @media (max-width: 760px) {
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

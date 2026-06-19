@@ -1,0 +1,251 @@
+---
+import { PRICING } from '../lib/constants';
+
+interface Props {
+  /** When true, render the live Stripe/PayPal CTAs; otherwise link to /pricing. */
+  live?: boolean;
+  /** Whether the viewer is signed in (affects Pro CTA copy). */
+  signedIn?: boolean;
+  /** Whether PayPal is configured (controls showing the PayPal alternative). */
+  paypalEnabled?: boolean;
+}
+const { live = false, signedIn = false, paypalEnabled = false } = Astro.props;
+---
+
+<div class="pgrid" data-reveal-group>
+  <!-- Free -->
+  <article class="plan" data-reveal>
+    <p class="kicker">Free</p>
+    <div class="price">${0}<span class="unit">forever</span></div>
+    <p class="ptag">Bring your own AI keys. No account required.</p>
+    <ul class="plist">
+      <li><span class="ck" aria-hidden="true">✓</span> Live transcription + copilot</li>
+      <li><span class="ck" aria-hidden="true">✓</span> On-device screen OCR</li>
+      <li><span class="ck" aria-hidden="true">✓</span> Coding-assessment board</li>
+      <li><span class="ck" aria-hidden="true">✓</span> Your models, your keys</li>
+    </ul>
+    <div class="spacer"></div>
+    <a class="btn btn-ghost full" href="/download">Download free</a>
+  </article>
+
+  <!-- Pro -->
+  <article class="plan pro" data-reveal>
+    <div class="proglow" aria-hidden="true"></div>
+    <span class="badge">Most popular</span>
+    <p class="kicker pro-k">Pro</p>
+    <div class="price">${PRICING.proMonthly}<span class="unit">/mo</span></div>
+    <p class="ptag">Everything in Free, plus the hosted extras.</p>
+    <ul class="plist strong">
+      <li><span class="ck pro-ck" aria-hidden="true">★</span> Cloud session sync</li>
+      <li><span class="ck pro-ck" aria-hidden="true">★</span> Hosted practice console (per-role)</li>
+      <li><span class="ck pro-ck" aria-hidden="true">★</span> Premium prompt packs</li>
+      <li><span class="ck pro-ck" aria-hidden="true">★</span> Priority notarized builds</li>
+    </ul>
+    <div class="spacer"></div>
+
+    {
+      live ? (
+        <>
+          <form method="POST" action="/api/checkout" class="ppay">
+            <button type="submit" class="btn btn-primary full">
+              {signedIn ? 'Upgrade with card' : 'Sign in &amp; pay with card'}
+            </button>
+          </form>
+          {paypalEnabled && (
+            <a class="btn btn-ghost full alt" href="/api/paypal/start">
+              Subscribe with PayPal
+            </a>
+          )}
+          <p class="note">
+            Card payments are processed by Stripe. Pro unlocks in the app right after checkout.
+          </p>
+        </>
+      ) : (
+        <>
+          <a class="btn btn-primary full" href="/pricing">
+            Go Pro — ${PRICING.proMonthly}/mo
+          </a>
+          <p class="note">Compare plans and check out on the pricing page.</p>
+        </>
+      )
+    }
+  </article>
+</div>
+
+<style>
+  .pgrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 48px;
+    align-items: stretch;
+  }
+  .plan {
+    position: relative;
+    background: linear-gradient(180deg, #0f141c, #0b0e13);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition:
+      border-color var(--duration-normal) var(--ease-out-expo),
+      transform var(--duration-normal) var(--ease-out-expo),
+      box-shadow var(--duration-normal) var(--ease-out-expo);
+  }
+  .plan:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Pro gets an animated conic gradient ring */
+  .plan.pro {
+    border-color: transparent;
+  }
+  .plan.pro::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg,
+      rgba(91, 140, 255, 0.7),
+      rgba(154, 123, 255, 0.7),
+      rgba(91, 140, 255, 0.2),
+      rgba(154, 123, 255, 0.7),
+      rgba(91, 140, 255, 0.7)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: ring-spin 8s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+  @keyframes ring-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .plan.pro::before {
+      animation: none;
+    }
+  }
+
+  .proglow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(80% 60% at 80% 0, rgba(91, 140, 255, 0.16), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .plan.pro > *:not(.proglow):not(.badge) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 3;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent-grad);
+    padding: 5px 11px;
+    border-radius: 999px;
+    box-shadow: 0 6px 18px -8px rgba(91, 140, 255, 0.8);
+  }
+
+  .pro-k {
+    color: var(--accent-2);
+  }
+  .price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 46px;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+  }
+  .price .unit {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--faint);
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .ptag {
+    color: var(--dim);
+    font-size: 14px;
+    margin: 8px 0 22px;
+  }
+  .plist {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    font-size: 14px;
+    color: var(--dim);
+    display: grid;
+    gap: 13px;
+  }
+  .plist.strong {
+    color: var(--ink);
+  }
+  .plist li {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .ck {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--good);
+    background: rgba(63, 185, 80, 0.12);
+    border: 1px solid rgba(63, 185, 80, 0.22);
+  }
+  .ck.pro-ck {
+    color: var(--accent-2);
+    background: rgba(154, 123, 255, 0.14);
+    border-color: rgba(154, 123, 255, 0.28);
+  }
+  .spacer {
+    flex: 1;
+  }
+  .full {
+    width: 100%;
+    justify-content: center;
+  }
+  .ppay {
+    margin: 0;
+  }
+  .alt {
+    margin-top: 10px;
+  }
+  .note {
+    font-size: 12.5px;
+    color: var(--faint);
+    margin: 14px 0 0;
+  }
+  @media (max-width: 860px) {
+    .pgrid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

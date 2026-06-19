@@ -1,0 +1,51 @@
+---
+import FeatureCard from './FeatureCard.astro';
+---
+
+<section id="features">
+  <div class="wrap">
+    <p class="kicker" data-reveal>What it does</p>
+    <h2 data-reveal>Hear it. Read it. Answer it.</h2>
+    <p class="lead" data-reveal>Everything runs in one small floating window you can resize, dim, or tuck away.</p>
+    <div class="grid" data-reveal-group>
+      <FeatureCard icon="🎙️" title="Real-time transcription">
+        System audio and your mic, transcribed live and labelled by speaker — on-device Apple Speech,
+        no cloud required.
+      </FeatureCard>
+      <FeatureCard icon="✦" title="AI answer copilot">
+        Ask any moment and get a tight, spoken-or-typed answer in a dedicated pane. Switch to a stronger
+        model for hard problems on the fly.
+      </FeatureCard>
+      <FeatureCard icon="📸" title="Snapshot &amp; read">
+        Grab a region of the screen and OCR it instantly — entirely on-device with Apple Vision. Feed a
+        diagram or a problem straight to the copilot.
+      </FeatureCard>
+      <FeatureCard icon="🪟" title="Floating &amp; adjustable">
+        Always-on-top, resizable split view, opacity dial. Put the answers where you want and size them
+        as big as you need.
+      </FeatureCard>
+      <FeatureCard icon="🔒" title="Private &amp; BYOK">
+        Transcription and OCR happen on your Mac. The copilot runs on <em>your</em> AI keys — nothing is
+        shared, each session is isolated.
+      </FeatureCard>
+      <FeatureCard icon="⌨️" title="Global hotkeys">
+        Answer the moment and stop the voice without leaving your call — <code>⌃⌥A</code> and
+        <code>⌃⌥S</code>, from anywhere.
+      </FeatureCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 44px;
+  }
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

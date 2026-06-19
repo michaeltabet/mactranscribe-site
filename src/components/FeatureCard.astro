@@ -1,0 +1,90 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  span2?: boolean;
+}
+const { icon, title, span2 = false } = Astro.props;
+---
+
+<article class:list={['feat', { span2 }]} data-reveal>
+  <div class="ic" aria-hidden="true">{icon}</div>
+  <h3>{title}</h3>
+  <p><slot /></p>
+</article>
+
+<style>
+  .feat {
+    position: relative;
+    background: linear-gradient(180deg, #0f141c, #0b0e13);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 26px 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition:
+      border-color var(--duration-normal) var(--ease-out-expo),
+      transform var(--duration-normal) var(--ease-out-expo),
+      box-shadow var(--duration-normal) var(--ease-out-expo);
+  }
+  /* radial spotlight that warms on hover */
+  .feat::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 90% at 50% -20%, rgba(91, 140, 255, 0.12), transparent 60%);
+    opacity: 0;
+    transition: opacity var(--duration-normal) var(--ease-out-expo);
+    pointer-events: none;
+  }
+  .feat:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+  .feat:hover::before {
+    opacity: 1;
+  }
+  .feat:hover .ic {
+    transform: scale(1.06) rotate(-3deg);
+    border-color: var(--accent);
+  }
+  .span2 {
+    grid-column: span 2;
+  }
+  .ic {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius);
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+    margin-bottom: 18px;
+    background: radial-gradient(120% 120% at 30% 20%, rgba(91, 140, 255, 0.32), rgba(154, 123, 255, 0.14));
+    border: 1px solid var(--line-strong);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition:
+      transform var(--duration-normal) var(--ease-spring),
+      border-color var(--duration-normal) var(--ease-out-expo);
+  }
+  h3 {
+    position: relative;
+    margin: 0 0 8px;
+    font-size: 17px;
+    letter-spacing: -0.015em;
+    font-weight: 600;
+  }
+  p {
+    position: relative;
+    margin: 0;
+    color: var(--dim);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  @media (max-width: 860px) {
+    .span2 {
+      grid-column: auto;
+    }
+  }
+</style>

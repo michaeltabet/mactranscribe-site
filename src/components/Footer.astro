@@ -1,0 +1,47 @@
+---
+import Logo from './Logo.astro';
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="wrap">
+    <Logo />
+    <span class="sp"></span>
+    <nav class="flinks" aria-label="Footer">
+      <a href="/#features">Features</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/download">Download</a>
+      <a href="/login">Sign in</a>
+    </nav>
+    <span class="copy">© {year} MacTranscribe</span>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 40px 0;
+    color: var(--faint);
+    font-size: 13px;
+  }
+  footer .wrap {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .sp {
+    flex: 1;
+  }
+  .flinks {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .flinks a:hover {
+    color: var(--dim);
+  }
+  .copy {
+    color: var(--faint);
+  }
+</style>

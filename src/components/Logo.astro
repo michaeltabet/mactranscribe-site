@@ -1,0 +1,41 @@
+---
+interface Props {
+  href?: string;
+}
+const { href = '/' } = Astro.props;
+---
+
+<a class="logo" href={href} aria-label="MacTranscribe home">
+  <span class="mark" aria-hidden="true">M</span>
+  <span class="word">MacTranscribe</span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    font-size: 17px;
+    color: var(--ink);
+  }
+  .mark {
+    width: 27px;
+    height: 27px;
+    border-radius: var(--radius-sm);
+    display: grid;
+    place-items: center;
+    background: var(--accent-grad);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px -4px rgba(91, 140, 255, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: transform var(--duration-normal) var(--ease-spring);
+  }
+  .logo:hover .mark {
+    transform: rotate(-6deg) scale(1.06);
+  }
+</style>

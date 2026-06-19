@@ -1,5 +1,5 @@
 {
-  "_comment": "Versioned Keycloak realm for MacTranscribe paid tier. Import-ready, NOT auto-applied to production. Import with: kcadm.sh create realms -f mactranscribe-realm.json  (or the Keycloak admin UI > Create realm > import). Set the CHANGE_ME secret and grant the billing service account 'manage-users' before going live.",
+  "_comment": "Versioned Keycloak realm for MacTranscribe paid tier. Import-ready, NOT auto-applied to production. Import with: kcadm.sh create realms -f mactranscribe-realm.json  (or the Keycloak admin UI > Create realm > import). Replace every CHANGE_ME secret and configure the Google IdP clientId/clientSecret (set here via ${} env placeholders or edited in the admin UI) before going live. Grant the billing service account 'manage-users' before going live.",
   "realm": "mactranscribe",
   "enabled": true,
   "displayName": "MacTranscribe",
@@ -34,15 +34,73 @@
       "attributes": { "pkce.code.challenge.method": "S256" }
     },
     {
+      "clientId": "mactranscribe-web",
+      "name": "MacTranscribe website",
+      "description": "Confidential web client for the Astro SSR site (Authorization Code + PKCE). Set the secret below to match KEYCLOAK_CLIENT_SECRET in the site env before import.",
+      "enabled": true,
+      "publicClient": false,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "secret": "CHANGE_ME_WEB_CLIENT_SECRET",
+      "redirectUris": [
+        "https://mactranscribe.michaeltabet.com/api/auth/callback",
+        "http://localhost:4321/api/auth/callback"
+      ],
+      "webOrigins": [
+        "https://mactranscribe.michaeltabet.com",
+        "http://localhost:4321"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "https://mactranscribe.michaeltabet.com/+##http://localhost:4321/+"
+      },
+      "protocolMappers": [
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "realm_access.roles",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
       "clientId": "mactranscribe-billing",
       "name": "Billing webhook service",
-      "description": "Confidential service-account client. Grant it the 'manage-users' realm-management role so it can assign the 'pro' role after a payment. Set the secret below before import.",
+      "description": "Confidential service-account client. Grant it the 'manage-users' realm-management role so it can assign the 'pro' role after a payment. Set the secret below to match KEYCLOAK_ADMIN_CLIENT_SECRET before import.",
       "enabled": true,
       "publicClient": false,
       "serviceAccountsEnabled": true,
       "standardFlowEnabled": false,
       "directAccessGrantsEnabled": false,
-      "secret": "CHANGE_ME_BEFORE_IMPORT"
+      "secret": "CHANGE_ME_BILLING_CLIENT_SECRET"
+    }
+  ],
+  "identityProviders": [
+    {
+      "alias": "google",
+      "displayName": "Google",
+      "providerId": "google",
+      "enabled": true,
+      "trustEmail": true,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "clientId": "${GOOGLE_CLIENT_ID}",
+        "clientSecret": "${GOOGLE_CLIENT_SECRET}",
+        "syncMode": "IMPORT",
+        "useJwksUrl": "true",
+        "defaultScope": "openid profile email"
+      }
     }
   ]
 }

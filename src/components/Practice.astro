@@ -1,0 +1,338 @@
+---
+/**
+ * Practice mode: a HackerRank-style coding-assessment board (problem + skeleton
+ * editor) on the left, and a mock-interviewer conversation panel on the right.
+ * Editorial, grid-breaking composition — not a uniform card row.
+ */
+
+// Static, developer-authored syntax-highlighted skeleton. Rendered with set:html
+// because Astro's .astro parser treats raw `<pre>` content as JSX and chokes on
+// the `=>` arrow entity. No user input is involved.
+const editorHtml = `<span class="kw">function</span> <span class="fn">merge</span>(intervals) {
+  intervals.<span class="fn">sort</span>((a, b) =&gt; a[0] - b[0]);
+  <span class="cm">// TODO: fold overlapping ranges</span>
+  <span class="gap">▏</span>
+  <span class="kw">return</span> out;
+}`;
+---
+
+<section id="practice">
+  <div class="wrap">
+    <p class="kicker" data-reveal>Practice mode</p>
+    <h2 data-reveal>Rehearse the interview before it's real.</h2>
+    <p class="lead" data-reveal>
+      Load a role and run a realistic dry-run — a mock interviewer that probes your answers, and a
+      coding-assessment board that feels like the real online test.
+    </p>
+
+    <div class="layout" data-reveal-group>
+      <!-- Coding assessment board -->
+      <div class="board" data-reveal>
+        <div class="board-bar">
+          <span class="tag">Coding Assessment</span>
+          <span class="meta">Question 2 / 3</span>
+          <span class="timer" aria-hidden="true">⏱ 28:14</span>
+        </div>
+        <div class="board-body">
+          <div class="prompt">
+            <h4>Merge Overlapping Intervals</h4>
+            <p>
+              Given an array of <code>intervals</code> where
+              <code>intervals[i] = [start, end]</code>, merge all overlapping intervals and return the
+              non-overlapping set covering all the input.
+            </p>
+            <ul class="cons">
+              <li><b>Constraints</b></li>
+              <li>1 ≤ intervals.length ≤ 10⁴</li>
+              <li>0 ≤ start ≤ end ≤ 10⁵</li>
+            </ul>
+            <div class="io">
+              <div><span class="iolab">Sample input</span><code>[[1,3],[2,6],[8,10]]</code></div>
+              <div><span class="iolab">Expected</span><code>[[1,6],[8,10]]</code></div>
+            </div>
+          </div>
+          <div class="editor" aria-hidden="true">
+            <div class="gutter">
+              <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+            </div>
+            <pre class="code" set:html={editorHtml}></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mock interviewer -->
+      <div class="mock" data-reveal>
+        <div class="mock-head">
+          <span class="avatar" aria-hidden="true">🗣️</span>
+          <div>
+            <strong>Mock interviewer</strong>
+            <span class="role">Senior Backend · System Design</span>
+          </div>
+        </div>
+        <div class="thread">
+          <div class="msg them">Walk me through how you'd shard that intervals table at write time.</div>
+          <div class="msg you">I'd range-partition on <code>start</code> and keep a covering index…</div>
+          <div class="msg them">Good. What breaks when two writers hit the same boundary?</div>
+          <div class="typing"><span></span><span></span><span></span></div>
+        </div>
+        <p class="mock-note">One sharp follow-up at a time, grounded in what you just said.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 18px;
+    margin-top: 44px;
+    align-items: stretch;
+  }
+
+  /* ---- board ---- */
+  .board,
+  .mock {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, #0f141c, #0b0e13);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-md);
+    transition:
+      border-color var(--duration-normal) var(--ease-out-expo),
+      transform var(--duration-normal) var(--ease-out-expo);
+  }
+  .board:hover,
+  .mock:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-3px);
+  }
+  .board-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--line);
+    background: #10151d;
+    font-size: 12px;
+  }
+  .tag {
+    color: var(--accent-2);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .meta {
+    color: var(--faint);
+  }
+  .timer {
+    margin-left: auto;
+    color: var(--good);
+    font-family: var(--font-mono);
+  }
+  .board-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: 1;
+  }
+  .prompt {
+    padding: 18px;
+    border-right: 1px solid var(--line);
+    background: var(--surface-2);
+  }
+  .prompt h4 {
+    margin: 0 0 10px;
+    font-size: 15px;
+  }
+  .prompt p {
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+  .cons {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 14px;
+    font-size: 12px;
+    color: var(--dim);
+    line-height: 1.8;
+  }
+  .cons b {
+    color: var(--faint);
+    text-transform: uppercase;
+    font-size: 10.5px;
+    letter-spacing: 0.5px;
+  }
+  .io {
+    display: grid;
+    gap: 8px;
+  }
+  .io > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .iolab {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--faint);
+  }
+  .editor {
+    display: flex;
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .gutter {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 10px 16px 14px;
+    color: var(--faint);
+    text-align: right;
+    user-select: none;
+    border-right: 1px solid var(--line);
+    opacity: 0.6;
+  }
+  .code {
+    margin: 0;
+    padding: 16px;
+    color: #cdd6e4;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .code .kw {
+    color: var(--accent-2);
+  }
+  .code .fn {
+    color: var(--accent);
+  }
+  .code .cm {
+    color: var(--faint);
+    font-style: italic;
+  }
+  .code .gap {
+    color: var(--accent);
+    animation: blink 1.05s steps(2, start) infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* ---- mock interviewer ---- */
+  .mock-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid var(--line);
+    background: #10151d;
+  }
+  .avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    background: radial-gradient(120% 120% at 30% 20%, rgba(154, 123, 255, 0.3), rgba(91, 140, 255, 0.12));
+    border: 1px solid var(--line);
+  }
+  .mock-head strong {
+    display: block;
+    font-size: 14px;
+  }
+  .role {
+    font-size: 11.5px;
+    color: var(--faint);
+  }
+  .thread {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+  .msg {
+    font-size: 12.5px;
+    line-height: 1.55;
+    padding: 10px 12px;
+    border-radius: 12px;
+    max-width: 92%;
+  }
+  .msg.them {
+    background: var(--surface-3);
+    border: 1px solid var(--line);
+    color: var(--dim);
+    align-self: flex-start;
+    border-bottom-left-radius: 3px;
+  }
+  .msg.you {
+    background: linear-gradient(135deg, rgba(91, 140, 255, 0.22), rgba(154, 123, 255, 0.12));
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    align-self: flex-end;
+    border-bottom-right-radius: 3px;
+  }
+  .typing {
+    display: inline-flex;
+    gap: 4px;
+    padding: 10px 12px;
+    align-self: flex-start;
+  }
+  .typing span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--faint);
+    animation: bounce 1.2s var(--ease-out-expo) infinite;
+  }
+  .typing span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .typing span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translateY(-4px);
+      opacity: 1;
+    }
+  }
+  .mock-note {
+    margin: 0;
+    padding: 14px 16px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--faint);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .code .gap,
+    .typing span {
+      animation: none;
+    }
+  }
+  @media (max-width: 980px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .board-body {
+      grid-template-columns: 1fr;
+    }
+    .prompt {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+</style>

@@ -1,0 +1,381 @@
+---
+/**
+ * The MacTranscribe floating window mockup: left ANSWERS pane + right TRANSCRIPT
+ * pane, traffic-light title bar, live pill. Static recreation, accessible, with
+ * compositor-friendly motion only (float + optional pointer parallax tilt + a
+ * shimmer that reads as "alive"). All motion gated by prefers-reduced-motion.
+ */
+---
+
+<div class="stage" data-tilt>
+  <div class="floater">
+    <div
+      class="win"
+      role="img"
+      aria-label="MacTranscribe floating window showing an Answers pane and a live Transcript pane"
+    >
+      <div class="bar">
+        <div class="tl" aria-hidden="true">
+          <i class="r"></i><i class="y"></i><i class="g"></i>
+        </div>
+        <span class="title">MacTranscribe</span>
+        <span class="pill"><span class="livedot" aria-hidden="true"></span> live</span>
+      </div>
+      <div class="body">
+        <div class="ans">
+          <div class="lab"><span class="s" aria-hidden="true">✦</span> Answers</div>
+          <div class="card">
+            <h4>Two-pointer approach — O(n)</h4>
+            <p>
+              Walk from both ends; move the smaller pointer inward. One pass, no extra space. Handles
+              the empty array as the base case.
+            </p>
+          </div>
+          <div class="card fresh">
+            <h4>Frame it with STAR</h4>
+            <p>
+              Situation → Task → <code>Action</code> → Result. Lead with the metric: "cut p95 latency
+              40%."<span class="cursor" aria-hidden="true"></span>
+            </p>
+          </div>
+        </div>
+        <div class="feed">
+          <div class="lab">Transcript</div>
+          <div class="line">
+            <span class="who">Them</span><span class="txt"
+              >Can you walk me through how you'd reverse a linked list in place?</span
+            >
+          </div>
+          <div class="line">
+            <span class="who you">You</span><span class="txt"
+              >Sure — I'd keep three pointers: prev, curr, next…</span
+            >
+          </div>
+          <div class="line">
+            <span class="who">Them</span><span class="txt">And the time complexity?</span>
+          </div>
+          <div class="line">
+            <span class="who you">You</span><span class="txt">Linear, O(n) — single pass, O(1) space.</span>
+          </div>
+          <div class="caret" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .stage {
+    margin-top: clamp(3rem, 2rem + 4vw, 5.5rem);
+    position: relative;
+    perspective: 1600px;
+  }
+  /* animated gradient halo behind the window */
+  .stage::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 20px;
+    background: conic-gradient(
+      from 120deg,
+      rgba(91, 140, 255, 0.55),
+      rgba(154, 123, 255, 0.35),
+      transparent 45%,
+      transparent 70%,
+      rgba(91, 140, 255, 0.45)
+    );
+    filter: blur(14px);
+    opacity: 0.55;
+    z-index: 0;
+    animation: halo-spin 14s linear infinite;
+  }
+  @keyframes halo-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* float wrapper — slow vertical drift */
+  .floater {
+    position: relative;
+    z-index: 1;
+    transform-style: preserve-3d;
+    animation: float 7s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -10px, 0);
+    }
+  }
+
+  .win {
+    position: relative;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line-strong);
+    background: linear-gradient(180deg, #10151d, #0a0d12);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: transform 380ms var(--ease-out-expo);
+    will-change: transform;
+  }
+  /* inner top highlight for glassy depth */
+  .win::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    z-index: 3;
+  }
+  .bar {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #131923, #0f141c);
+  }
+  .tl {
+    display: flex;
+    gap: 7px;
+  }
+  .tl i {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: block;
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.4);
+  }
+  .tl .r {
+    background: var(--danger);
+  }
+  .tl .y {
+    background: var(--warn);
+  }
+  .tl .g {
+    background: #28c840;
+  }
+  .title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--dim);
+    font-weight: 500;
+    margin-left: 6px;
+  }
+  .pill {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--good);
+    border: 1px solid #1e3a26;
+    background: #0e1a12;
+    border-radius: 999px;
+    padding: 3px 9px;
+  }
+  .livedot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--good);
+    box-shadow: 0 0 8px rgba(63, 185, 80, 0.8);
+    animation: pulse 1.8s var(--ease-out-expo) infinite;
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.4;
+      transform: scale(0.7);
+    }
+  }
+  .body {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    min-height: 360px;
+  }
+  .ans {
+    border-right: 1px solid var(--line);
+    padding: 18px;
+    background: linear-gradient(180deg, #0c1016, #090c11);
+  }
+  .feed {
+    padding: 18px;
+    background: var(--bg);
+    position: relative;
+  }
+  .lab {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--faint);
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .lab .s {
+    color: var(--accent);
+  }
+  .card {
+    position: relative;
+    background: linear-gradient(180deg, #131925, #0f141c);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition:
+      border-color var(--duration-normal) var(--ease-out-expo),
+      transform var(--duration-normal) var(--ease-out-expo);
+  }
+  .card:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-2px);
+  }
+  /* shimmer sweep on the "freshly generated" card → reads as live */
+  .card.fresh::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 35%, rgba(91, 140, 255, 0.14) 50%, transparent 65%);
+    transform: translateX(-100%);
+    animation: shimmer 4.5s var(--ease-out-expo) infinite;
+    animation-delay: 1.2s;
+    pointer-events: none;
+  }
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    22%,
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  .cursor {
+    display: inline-block;
+    width: 7px;
+    height: 13px;
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    background: var(--accent);
+    border-radius: 1px;
+    animation: blink 1.05s steps(2, start) infinite;
+  }
+  .card h4 {
+    margin: 0 0 7px;
+    font-size: 13.5px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .card p {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--dim);
+    line-height: 1.55;
+  }
+  .line {
+    display: flex;
+    gap: 9px;
+    margin-bottom: 13px;
+    font-size: 12.5px;
+  }
+  .who {
+    flex-shrink: 0;
+    width: 54px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--faint);
+    font-weight: 500;
+    padding-top: 1px;
+  }
+  .who.you {
+    color: var(--accent);
+  }
+  .txt {
+    color: var(--dim);
+  }
+  .caret {
+    width: 8px;
+    height: 15px;
+    background: var(--accent);
+    border-radius: 2px;
+    opacity: 0.85;
+    box-shadow: 0 0 10px rgba(91, 140, 255, 0.7);
+    animation: blink 1.05s steps(2, start) infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage::before,
+    .floater,
+    .livedot,
+    .card.fresh::after,
+    .cursor,
+    .caret {
+      animation: none;
+    }
+    .floater {
+      transition: none;
+    }
+  }
+  @media (max-width: 860px) {
+    .body {
+      grid-template-columns: 1fr;
+    }
+    .ans {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const stage = document.querySelector('[data-tilt]');
+    if (!stage) return;
+    const win = stage.querySelector('.win');
+    if (!win) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
+    let raf = 0;
+    const MAX = 5; // degrees
+    function onMove(e) {
+      const r = stage.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        win.style.transform =
+          'rotateX(' + (-py * MAX).toFixed(2) + 'deg) rotateY(' + (px * MAX).toFixed(2) + 'deg)';
+      });
+    }
+    function onLeave() {
+      if (raf) cancelAnimationFrame(raf);
+      win.style.transform = '';
+    }
+    stage.addEventListener('pointermove', onMove);
+    stage.addEventListener('pointerleave', onLeave);
+  })();
+</script>
