@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mactranscribe-site
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: mactranscribe-site
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/michaeltabet/mactranscribe-site.git
+    targetRevision: main
+    path: k8s
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
