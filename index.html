@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MacTranscribe — live transcription & AI copilot for your Mac</title>
+<meta name="description" content="Real-time transcription and an on-device AI copilot for interviews, meetings, and practice. Mock interviews, a coding-assessment board, and private on-device OCR. macOS 14+, Apple Silicon." />
+<meta property="og:title" content="MacTranscribe" />
+<meta property="og:description" content="Live transcription + AI copilot for your Mac. Practice interviews, capture meetings, get answers — privately." />
+<style>
+  :root{
+    --bg:#0a0c10; --bg2:#0e1117; --panel:#12161d; --line:#1e2530;
+    --ink:#e7ecf3; --dim:#9aa6b6; --faint:#697586;
+    --accent:#5b8cff; --accent2:#9a7bff; --good:#3fb950;
+    --text-hero:clamp(2.6rem,1.2rem+5.4vw,5.4rem);
+    --space:clamp(4.5rem,3rem+5vw,9rem);
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:ui-sans-serif,system-ui,-apple-system,"SF Pro Text","Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* ambient glow */
+  .glow{position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(60vw 50vw at 72% -10%, rgba(91,140,255,.16), transparent 60%),
+      radial-gradient(50vw 40vw at 10% 5%, rgba(154,123,255,.12), transparent 55%);}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+    background:rgba(10,12,16,.6);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:14px;height:62px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em;font-size:17px}
+  .logo .mark{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:14px;font-weight:800}
+  nav .sp{flex:1}
+  nav .links{display:flex;gap:26px;color:var(--dim);font-size:14px}
+  nav .links a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:11px;padding:11px 18px;
+    font-weight:650;font-size:14.5px;border:1px solid transparent;cursor:pointer;transition:.2s var(--ease)}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+    box-shadow:0 8px 24px -8px rgba(91,140,255,.6)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 14px 30px -8px rgba(91,140,255,.7)}
+  .btn-ghost{background:#141923;border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:#2c3645;background:#171d28}
+
+  /* hero */
+  header{padding:var(--space) 0 0}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--dim);
+    border:1px solid var(--line);background:#0f141c;border-radius:999px;padding:6px 13px;margin-bottom:26px}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 0 4px rgba(63,185,80,.15)}
+  h1{font-size:var(--text-hero);line-height:1.02;letter-spacing:-.035em;margin:0 0 22px;font-weight:760;max-width:14ch}
+  h1 .grad{background:linear-gradient(120deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:clamp(1.05rem,.96rem+.5vw,1.3rem);color:var(--dim);max-width:56ch;margin:0 0 34px}
+  .cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .req{color:var(--faint);font-size:13px;margin-top:14px;display:flex;gap:14px;flex-wrap:wrap}
+  .req b{color:var(--dim);font-weight:600}
+
+  /* app mockup */
+  .stage{margin-top:clamp(3rem,2rem+4vw,6rem);position:relative}
+  .stage:before{content:"";position:absolute;inset:-1px;border-radius:18px;
+    background:linear-gradient(120deg,rgba(91,140,255,.5),rgba(154,123,255,.2),transparent);
+    filter:blur(2px);opacity:.5;z-index:0}
+  .win{position:relative;z-index:1;border-radius:16px;border:1px solid var(--line);
+    background:linear-gradient(180deg,#0f141c,#0b0e13);overflow:hidden;
+    box-shadow:0 40px 90px -30px rgba(0,0,0,.8)}
+  .win .bar{height:40px;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid var(--line);background:#10151d}
+  .win .tl{display:flex;gap:7px}.tl i{width:11px;height:11px;border-radius:50%;display:block}
+  .tl .r{background:#ff5f57}.tl .y{background:#febc2e}.tl .g{background:#28c840}
+  .win .title{font-size:12.5px;color:var(--dim);font-weight:600;margin-left:6px}
+  .win .pill{margin-left:auto;font-size:11px;color:var(--good);border:1px solid #1e3a26;background:#0e1a12;border-radius:999px;padding:3px 9px}
+  .win .body{display:grid;grid-template-columns:1.15fr 1fr;min-height:360px}
+  .win .ans{border-right:1px solid var(--line);padding:18px;background:#0c1016}
+  .win .feed{padding:18px;background:#0a0d12}
+  .lab{font-size:10.5px;letter-spacing:.6px;color:var(--faint);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .lab .s{color:var(--accent)}
+  .ans .card{background:#11161f;border:1px solid var(--line);border-radius:11px;padding:14px;margin-bottom:12px}
+  .ans .card h4{margin:0 0 7px;font-size:13.5px;color:var(--ink)}
+  .ans .card p{margin:0;font-size:12.5px;color:var(--dim);line-height:1.55}
+  .ans code,.feed code{font-family:ui-monospace,Menlo,monospace;color:#cdd6e4;background:#0a0d12;padding:1px 5px;border-radius:5px;font-size:12px}
+  .feed .line{display:flex;gap:9px;margin-bottom:13px;font-size:12.5px}
+  .feed .who{flex-shrink:0;width:54px;color:var(--faint);font-weight:600}
+  .feed .who.you{color:var(--accent)}
+  .feed .txt{color:var(--dim)}
+
+  /* sections */
+  section{padding:var(--space) 0}
+  .kicker{color:var(--accent);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+  h2{font-size:clamp(1.9rem,1.3rem+2.4vw,3rem);letter-spacing:-.03em;line-height:1.08;margin:0 0 16px;font-weight:720}
+  .lead{color:var(--dim);font-size:1.1rem;max-width:60ch}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+  .feat{background:linear-gradient(180deg,#0f141c,#0c1016);border:1px solid var(--line);border-radius:15px;padding:24px;
+    transition:.25s var(--ease)}
+  .feat:hover{border-color:#2c3645;transform:translateY(-3px)}
+  .feat .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:19px;margin-bottom:16px;
+    background:radial-gradient(120% 120% at 30% 20%,rgba(91,140,255,.28),rgba(154,123,255,.12));border:1px solid var(--line)}
+  .feat h3{margin:0 0 8px;font-size:17px;letter-spacing:-.01em}
+  .feat p{margin:0;color:var(--dim);font-size:14px;line-height:1.6}
+  .feat.span2{grid-column:span 2}
+
+  /* download */
+  .download{position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+    background:linear-gradient(135deg,#10151d,#0b0e13);padding:clamp(2.4rem,1.6rem+3vw,4rem);text-align:center}
+  .download:before{content:"";position:absolute;inset:0;z-index:0;
+    background:radial-gradient(60% 80% at 50% -10%,rgba(91,140,255,.22),transparent 60%)}
+  .download>*{position:relative;z-index:1}
+  .download h2{margin-bottom:14px}
+  .download .lead{margin:0 auto 30px}
+  .specs{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin-top:28px;color:var(--faint);font-size:13px}
+  .specs b{color:var(--dim)}
+
+  footer{border-top:1px solid var(--line);padding:40px 0;color:var(--faint);font-size:13px}
+  footer .wrap{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  footer a:hover{color:var(--dim)}
+  .note{font-size:12.5px;color:var(--faint);margin-top:18px}
+
+  @media(max-width:860px){
+    .win .body{grid-template-columns:1fr}.win .ans{border-right:0;border-bottom:1px solid var(--line)}
+    .grid{grid-template-columns:1fr}.feat.span2{grid-column:auto}
+    nav .links{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+
+<nav><div class="wrap">
+  <a class="logo" href="#"><span class="mark">M</span> MacTranscribe</a>
+  <span class="sp"></span>
+  <div class="links">
+    <a href="#features">Features</a>
+    <a href="#practice">Practice</a>
+    <a href="#download">Download</a>
+  </div>
+  <a class="btn btn-primary" href="#download">Download</a>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="eyebrow"><span class="dot"></span> macOS 14+ · Apple Silicon · on-device</div>
+  <h1>Live transcription and an <span class="grad">AI copilot</span> for your Mac.</h1>
+  <p class="sub">MacTranscribe listens to your call, transcribes it in real time, and answers on demand — in a floating window that stays out of the way. Interviews, sales calls, meetings, coding, study — whatever you're walking into. Runs on your own AI keys.</p>
+  <div class="cta">
+    <a class="btn btn-primary" href="#download">↓ Download for macOS</a>
+    <a class="btn btn-ghost" href="#features">See what it does</a>
+  </div>
+  <div class="req"><span><b>Free</b> while in beta</span><span><b>Apple Silicon</b> (M1–M4)</span><span><b>On-device</b> screen OCR</span></div>
+
+  <div class="stage"><div class="win">
+    <div class="bar">
+      <div class="tl"><i class="r"></i><i class="y"></i><i class="g"></i></div>
+      <span class="title">MacTranscribe</span>
+      <span class="pill">● live</span>
+    </div>
+    <div class="body">
+      <div class="ans">
+        <div class="lab"><span class="s">✦</span> ANSWERS</div>
+        <div class="card">
+          <h4>Two-pointer approach — O(n)</h4>
+          <p>Walk from both ends; move the smaller pointer inward. One pass, no extra space. Handles the empty array as the base case.</p>
+        </div>
+        <div class="card">
+          <h4>Frame it with STAR</h4>
+          <p>Situation → Task → <code>Action</code> → Result. Lead with the metric: "cut p95 latency 40%."</p>
+        </div>
+      </div>
+      <div class="feed">
+        <div class="lab">TRANSCRIPT</div>
+        <div class="line"><span class="who">Them</span><span class="txt">Can you walk me through how you'd reverse a linked list in place?</span></div>
+        <div class="line"><span class="who you">You</span><span class="txt">Sure — I'd keep three pointers, prev, curr, next…</span></div>
+        <div class="line"><span class="who">Them</span><span class="txt">And the time complexity?</span></div>
+        <div class="line"><span class="who you">You</span><span class="txt">Linear, O(n) — single pass, O(1) space.</span></div>
+      </div>
+    </div>
+  </div></div>
+</div></header>
+
+<section id="features"><div class="wrap">
+  <div class="kicker">What it does</div>
+  <h2>Hear it. Read it. Answer it.</h2>
+  <p class="lead">Everything runs in one small floating window you can resize, dim, or tuck away.</p>
+  <div class="grid">
+    <div class="feat"><div class="ic">🎙️</div><h3>Real-time transcription</h3><p>System audio and your mic, transcribed live and labelled by speaker — on-device Apple Speech, no cloud required.</p></div>
+    <div class="feat"><div class="ic">✦</div><h3>AI answer copilot</h3><p>Ask any moment and get a tight, spoken-or-typed answer in a dedicated pane. Switch to a stronger model for hard problems on the fly.</p></div>
+    <div class="feat"><div class="ic">📸</div><h3>Snapshot & read</h3><p>Grab a region of the screen and OCR it instantly — entirely on-device with Apple Vision. Feed a diagram or a problem straight to the copilot.</p></div>
+    <div class="feat"><div class="ic">🪟</div><h3>Floating & adjustable</h3><p>Always-on-top, resizable split view, opacity dial. Put the answers where you want and size them as big as you need.</p></div>
+    <div class="feat"><div class="ic">🔒</div><h3>Private by design</h3><p>Transcription and OCR happen on your Mac. Each session is isolated; nothing leaks between recordings.</p></div>
+    <div class="feat"><div class="ic">⌨️</div><h3>Global hotkeys</h3><p>Answer the moment and stop the voice without leaving your call — ⌃⌥A and ⌃⌥S, from anywhere.</p></div>
+  </div>
+</div></section>
+
+<section id="practice"><div class="wrap">
+  <div class="kicker">Practice mode</div>
+  <h2>Rehearse the interview before it's real.</h2>
+  <p class="lead">Load a role and run a realistic dry-run — a mock interviewer that probes your answers, and a coding-assessment board that feels like the real online test.</p>
+  <div class="grid">
+    <div class="feat span2"><div class="ic">🧪</div><h3>Coding-assessment board</h3><p>A HackerRank-style board with problem statement, objectives, constraints, sample I/O, and a skeleton editor with the gaps to fill — tuned to the role you're prepping. Practice the writeup, the complexity, the talk-track.</p></div>
+    <div class="feat"><div class="ic">🗣️</div><h3>Mock interviewer</h3><p>Speaks like a real interviewer — one sharp follow-up at a time, grounded in what you just said.</p></div>
+  </div>
+</div></section>
+
+<section id="download"><div class="wrap">
+  <div class="download">
+    <div class="kicker">Get it</div>
+    <h2>Download MacTranscribe</h2>
+    <p class="lead">A single notarized app. Drag it to Applications, grant Screen Recording &amp; Microphone once, and you're set.</p>
+    <!-- VERSIONED: points at the latest GitHub Release asset. Cut a release with
+         `gh release create vX.Y.Z MacTranscribe.zip` and this link tracks it.
+         Placeholder until the Developer-ID notarized + backend-decoupled build is published. -->
+    <a class="btn btn-primary" style="font-size:16px;padding:14px 26px" href="https://github.com/michaeltabet/mac-transcribe/releases/latest" id="dl">↓ Download for macOS</a>
+    <div class="specs"><span><b>macOS</b> 14 Sonoma or later</span><span><b>Chip</b> Apple Silicon</span><span><b>Signed</b> &amp; notarized</span><span><b>Your own</b> AI keys</span></div>
+    <p class="note"><b>Private beta.</b> Bring your own AI keys — MacTranscribe runs on your models, nothing is shared. After download: allow <b>Screen Recording</b> and <b>Microphone</b> in System Settings → Privacy &amp; Security, relaunch once, and you're set.</p>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <a class="logo" href="#"><span class="mark">M</span> MacTranscribe</a>
+  <span class="sp" style="flex:1"></span>
+  <span>© <span id="yr"></span> MacTranscribe</span>
+  <a href="#features">Features</a>
+  <a href="#download">Download</a>
+</div></footer>
+
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>
