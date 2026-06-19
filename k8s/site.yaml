@@ -18,7 +18,6 @@ metadata: { name: site, namespace: mactranscribe-site }
 spec:
   replicas: 1
   selector: { matchLabels: { app: site } }
-  strategy: { type: Recreate }
   template:
     metadata: { labels: { app: site } }
     spec:
