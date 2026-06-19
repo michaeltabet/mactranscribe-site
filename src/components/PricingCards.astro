@@ -17,28 +17,28 @@ const { live = false, signedIn = false, paypalEnabled = false } = Astro.props;
   <article class="plan" data-reveal>
     <p class="kicker">Free</p>
     <div class="price">${0}<span class="unit">forever</span></div>
-    <p class="ptag">Bring your own AI keys. No account required.</p>
+    <p class="ptag">For a single new hire. Bring your own AI keys, no account required.</p>
     <ul class="plist">
-      <li><span class="ck" aria-hidden="true">✓</span> Live transcription + copilot</li>
+      <li><span class="ck" aria-hidden="true">✓</span> Live meeting capture + copilot</li>
       <li><span class="ck" aria-hidden="true">✓</span> On-device screen OCR</li>
-      <li><span class="ck" aria-hidden="true">✓</span> Coding-assessment board</li>
+      <li><span class="ck" aria-hidden="true">✓</span> Personal first-week playbook</li>
       <li><span class="ck" aria-hidden="true">✓</span> Your models, your keys</li>
     </ul>
     <div class="spacer"></div>
-    <a class="btn btn-ghost full" href="/download">Download free</a>
+    <a class="btn btn-ghost full" href="/login">Get started free</a>
   </article>
 
   <!-- Pro -->
   <article class="plan pro" data-reveal>
     <div class="proglow" aria-hidden="true"></div>
-    <span class="badge">Most popular</span>
+    <span class="badge">For teams</span>
     <p class="kicker pro-k">Pro</p>
     <div class="price">${PRICING.proMonthly}<span class="unit">/mo</span></div>
-    <p class="ptag">Everything in Free, plus the hosted extras.</p>
+    <p class="ptag">Everything in Free, plus the shared onboarding extras.</p>
     <ul class="plist strong">
-      <li><span class="ck pro-ck" aria-hidden="true">★</span> Cloud session sync</li>
-      <li><span class="ck pro-ck" aria-hidden="true">★</span> Hosted practice console (per-role)</li>
-      <li><span class="ck pro-ck" aria-hidden="true">★</span> Premium prompt packs</li>
+      <li><span class="ck pro-ck" aria-hidden="true">★</span> Shared team knowledge base</li>
+      <li><span class="ck pro-ck" aria-hidden="true">★</span> Role-based ramp-up playbooks</li>
+      <li><span class="ck pro-ck" aria-hidden="true">★</span> Reusable onboarding answer packs</li>
       <li><span class="ck pro-ck" aria-hidden="true">★</span> Priority notarized builds</li>
     </ul>
     <div class="spacer"></div>
@@ -113,11 +113,11 @@ const { live = false, signedIn = false, paypalEnabled = false } = Astro.props;
     border-radius: inherit;
     background: conic-gradient(
       from 0deg,
-      rgba(91, 140, 255, 0.7),
-      rgba(154, 123, 255, 0.7),
-      rgba(91, 140, 255, 0.2),
-      rgba(154, 123, 255, 0.7),
-      rgba(91, 140, 255, 0.7)
+      rgba(20, 184, 166, 0.75),
+      rgba(244, 63, 94, 0.75),
+      rgba(20, 184, 166, 0.2),
+      rgba(244, 63, 94, 0.75),
+      rgba(20, 184, 166, 0.75)
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -142,7 +142,7 @@ const { live = false, signedIn = false, paypalEnabled = false } = Astro.props;
   .proglow {
     position: absolute;
     inset: 0;
-    background: radial-gradient(80% 60% at 80% 0, rgba(91, 140, 255, 0.16), transparent 60%);
+    background: radial-gradient(80% 60% at 80% 0, rgba(20, 184, 166, 0.18), transparent 60%);
     pointer-events: none;
     z-index: 0;
   }
@@ -164,7 +164,7 @@ const { live = false, signedIn = false, paypalEnabled = false } = Astro.props;
     background: var(--accent-grad);
     padding: 5px 11px;
     border-radius: 999px;
-    box-shadow: 0 6px 18px -8px rgba(91, 140, 255, 0.8);
+    box-shadow: 0 6px 18px -8px rgba(244, 63, 94, 0.7);
   }
 
   .pro-k {
@@ -221,9 +221,9 @@ const { live = false, signedIn = false, paypalEnabled = false } = Astro.props;
     border: 1px solid rgba(63, 185, 80, 0.22);
   }
   .ck.pro-ck {
-    color: var(--accent-2);
-    background: rgba(154, 123, 255, 0.14);
-    border-color: rgba(154, 123, 255, 0.28);
+    color: var(--rose);
+    background: rgba(244, 63, 94, 0.14);
+    border-color: rgba(244, 63, 94, 0.3);
   }
   .spacer {
     flex: 1;

@@ -2,13 +2,13 @@
 
 export const PRODUCT = {
   name: 'MacTranscribe',
-  tagline: 'Live transcription and an AI copilot for your Mac.',
+  tagline: 'Real-time transcription and an AI copilot that ramps new hires up fast.',
   description:
-    'Real-time transcription and an on-device AI copilot for interviews, meetings, and practice. Mock interviews, a coding-assessment board, and private on-device OCR. macOS 14+, Apple Silicon.',
+    'MacTranscribe captures onboarding meetings and 1:1s in real time and gives new hires an AI copilot that answers "how do we do X here?" in the moment — turning tribal, undocumented knowledge into instant answers and shortening time-to-productivity in week one. macOS 14+, Apple Silicon.',
 } as const;
 
-/** Latest notarized macOS build. The download button always tracks this URL. */
-export const DOWNLOAD_URL = 'https://github.com/michaeltabet/mac-transcribe/releases/latest';
+/** Where the primary CTA sends people to start (sign up / sign in). */
+export const GET_STARTED_URL = '/login';
 
 export const PRICING = {
   proMonthly: 12,

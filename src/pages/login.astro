@@ -15,11 +15,11 @@ const enc = encodeURIComponent(returnTo);
   <section class="auth">
     <div class="wrap">
       <div class="card" data-reveal>
-        <p class="kicker">Welcome back</p>
+        <p class="kicker">Get started</p>
         <h2>Sign in to MacTranscribe</h2>
         <p class="lead">
-          Use your MacTranscribe account to manage your plan and grab your Pro license. Authentication
-          is handled by Keycloak.
+          Create your account or sign in to set up onboarding for your new hires and manage your plan.
+          Authentication is handled by Keycloak.
         </p>
 
         {error && <p class="err" role="alert">Sign-in failed: {error}. Please try again.</p>}
@@ -73,7 +73,7 @@ const enc = encodeURIComponent(returnTo);
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(90% 60% at 50% -10%, rgba(91, 140, 255, 0.16), transparent 60%);
+    background: radial-gradient(90% 60% at 50% -10%, rgba(20, 184, 166, 0.18), transparent 60%);
     pointer-events: none;
   }
   .card > * {
@@ -108,9 +108,9 @@ const enc = encodeURIComponent(returnTo);
     background: var(--line);
   }
   .err {
-    background: rgba(255, 95, 87, 0.1);
-    border: 1px solid rgba(255, 95, 87, 0.3);
-    color: #ffb3ae;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.32);
+    color: #fca5a5;
     padding: 10px 12px;
     border-radius: var(--radius);
     font-size: 13px;

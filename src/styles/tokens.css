@@ -1,47 +1,57 @@
 /*
  * MacTranscribe design tokens.
- * Color language inherited from _legacy/landing-v1.html (dark #0a0c10, blue→violet
- * accent) and elevated with a fuller surface/elevation scale, motion tokens, and
- * a deliberate self-hosted type pairing (General Sans / Inter / JetBrains Mono).
+ * Premium dark, gradient-forward. Brand language = TEAL (primary) + RED/ROSE
+ * (accent), with teal→red and teal→emerald gradients carrying the headlines,
+ * buttons, rings, and aurora glow. Self-hosted type pairing (General Sans /
+ * Inter / JetBrains Mono).
  */
 :root {
   /* ---- surfaces ---- */
-  --bg: #090b0f;
-  --bg-2: #0d1016;
-  --panel: #12161d;
-  --surface-1: #0f141c;
-  --surface-2: #0b0f15;
-  --surface-3: #11161f;
-  --surface-4: #151b25;
-  --line: #1c232e;
-  --line-strong: #2c3645;
+  --bg: #080b0c;
+  --bg-2: #0c0f11;
+  --panel: #11161a;
+  --surface-1: #0e1417;
+  --surface-2: #0a0f11;
+  --surface-3: #10171a;
+  --surface-4: #151e22;
+  --line: #1b262a;
+  --line-strong: #2a3a40;
   --hairline: rgba(255, 255, 255, 0.06);
 
   /* ---- ink ---- */
-  --ink: #eef2f8;
-  --dim: #9aa6b6;
-  --faint: #687585;
+  --ink: #ecf4f3;
+  --dim: #97a8a6;
+  --faint: #647573;
 
-  /* ---- accent ---- */
-  --accent: #5b8cff;
-  --accent-2: #9a7bff;
-  --accent-ink: #b9ccff;
-  --good: #3fb950;
-  --warn: #febc2e;
-  --danger: #ff5f57;
-  --accent-grad: linear-gradient(135deg, var(--accent), var(--accent-2));
-  --accent-grad-text: linear-gradient(110deg, #7fa6ff 0%, var(--accent-2) 60%, #c4a6ff 100%);
-  --accent-soft: rgba(91, 140, 255, 0.1);
+  /* ---- accent: teal (primary) + red/rose (accent) ---- */
+  --teal: #14b8a6;
+  --teal-600: #0d9488;
+  --teal-300: #2dd4bf;
+  --red: #ef4444;
+  --rose: #f43f5e;
+
+  --accent: #14b8a6; /* primary brand = teal */
+  --accent-2: #f43f5e; /* secondary brand = rose/red */
+  --accent-ink: #6ee7d8; /* light teal for kickers/labels */
+  --good: #2dd4bf;
+  --warn: #f5a524;
+  --danger: #ef4444;
+
+  /* gradient fills + gradient text */
+  --accent-grad: linear-gradient(135deg, var(--teal-600) 0%, var(--teal) 42%, var(--rose) 100%);
+  --accent-grad-text: linear-gradient(110deg, #2dd4bf 0%, #14b8a6 38%, #f43f5e 100%);
+  --accent-grad-emerald: linear-gradient(135deg, #2dd4bf 0%, #10b981 100%);
+  --accent-soft: rgba(20, 184, 166, 0.1);
 
   /* ---- glow / depth ---- */
-  --glow-blue: rgba(91, 140, 255, 0.2);
-  --glow-violet: rgba(154, 123, 255, 0.16);
+  --glow-teal: rgba(20, 184, 166, 0.22);
+  --glow-red: rgba(244, 63, 94, 0.16);
   --shadow-sm: 0 2px 8px -2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 18px 40px -22px rgba(0, 0, 0, 0.75);
   --shadow-card: 0 50px 110px -36px rgba(0, 0, 0, 0.85), 0 10px 30px -18px rgba(0, 0, 0, 0.6);
-  --shadow-btn: 0 8px 24px -8px rgba(91, 140, 255, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.22);
-  --shadow-btn-hover: 0 16px 34px -10px rgba(91, 140, 255, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  --ring-accent: 0 0 0 1px rgba(91, 140, 255, 0.4), 0 0 0 4px rgba(91, 140, 255, 0.12);
+  --shadow-btn: 0 8px 24px -8px rgba(20, 184, 166, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  --shadow-btn-hover: 0 16px 34px -10px rgba(244, 63, 94, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  --ring-accent: 0 0 0 1px rgba(20, 184, 166, 0.4), 0 0 0 4px rgba(20, 184, 166, 0.12);
 
   /* ---- typography ---- */
   --font-display: 'General Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;

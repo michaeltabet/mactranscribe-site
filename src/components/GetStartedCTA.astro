@@ -1,0 +1,91 @@
+---
+interface Props {
+  id?: string;
+}
+const { id = 'get-started' } = Astro.props;
+---
+
+<section id={id}>
+  <div class="wrap">
+    <div class="cta-card" data-reveal>
+      <p class="kicker">Get started</p>
+      <h2>Ramp up your next hire in days.</h2>
+      <p class="lead center">
+        Create an account, open MacTranscribe in your new hire's first onboarding meeting, and let the
+        copilot do the rest. Free to start — bring your own AI keys.
+      </p>
+      <a class="btn btn-primary btn-lg" href="/login">Get started</a>
+      <div class="specs">
+        <span><b>macOS</b> 14 Sonoma or later</span>
+        <span><b>Captures</b> meetings &amp; 1:1s</span>
+        <span><b>Private</b> — runs on your own AI keys</span>
+        <span><b>Free</b> tier &amp; Pro</span>
+      </div>
+      <p class="note">
+        <b>Private beta.</b> MacTranscribe runs on your own AI keys — onboarding conversations stay
+        internal, nothing is shared. After sign up, grant <b>Screen Recording</b> and
+        <b>Microphone</b> in System Settings → Privacy &amp; Security, relaunch once, and you're set.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-card {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: linear-gradient(135deg, #10171a, #0a0d0f);
+    padding: clamp(2.4rem, 1.6rem + 3vw, 4rem);
+    text-align: center;
+  }
+  /* teal→red aurora wash behind the CTA */
+  .cta-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(55% 80% at 22% -10%, rgba(20, 184, 166, 0.24), transparent 60%),
+      radial-gradient(55% 80% at 82% 0%, rgba(244, 63, 94, 0.18), transparent 60%);
+  }
+  .cta-card > * {
+    position: relative;
+    z-index: 1;
+  }
+  .kicker,
+  h2 {
+    text-align: center;
+  }
+  h2 {
+    margin-bottom: 14px;
+  }
+  .center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .lead {
+    margin-bottom: 30px;
+  }
+  .specs {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    color: var(--faint);
+    font-size: 13px;
+  }
+  .specs b {
+    color: var(--dim);
+  }
+  .note {
+    font-size: 12.5px;
+    color: var(--faint);
+    margin-top: 18px;
+    max-width: 64ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>

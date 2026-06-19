@@ -25,37 +25,37 @@
         <div class="ans">
           <div class="lab"><span class="s" aria-hidden="true">✦</span> Answers</div>
           <div class="card">
-            <h4>Two-pointer approach — O(n)</h4>
+            <h4>How we ship to staging</h4>
             <p>
-              Walk from both ends; move the smaller pointer inward. One pass, no extra space. Handles
-              the empty array as the base case.
+              Merge to <code>main</code> auto-deploys to staging via Argo. QA signs off in #releases
+              before anyone promotes to prod.
             </p>
           </div>
           <div class="card fresh">
-            <h4>Frame it with STAR</h4>
+            <h4>Who owns the billing service?</h4>
             <p>
-              Situation → Task → <code>Action</code> → Result. Lead with the metric: "cut p95 latency
-              40%."<span class="cursor" aria-hidden="true"></span>
+              Team Atlas. Ping <code>@priya</code> for access; the runbook lives in the Onboarding
+              wiki under "Billing."<span class="cursor" aria-hidden="true"></span>
             </p>
           </div>
         </div>
         <div class="feed">
           <div class="lab">Transcript</div>
           <div class="line">
-            <span class="who">Them</span><span class="txt"
-              >Can you walk me through how you'd reverse a linked list in place?</span
+            <span class="who">Lead</span><span class="txt"
+              >…and for deploys, we never push straight to prod — it all goes through staging first.</span
             >
           </div>
           <div class="line">
             <span class="who you">You</span><span class="txt"
-              >Sure — I'd keep three pointers: prev, curr, next…</span
+              >Got it. Where do I find the staging deploy steps?</span
             >
           </div>
           <div class="line">
-            <span class="who">Them</span><span class="txt">And the time complexity?</span>
+            <span class="who">Lead</span><span class="txt">It's in the wiki, but let me show you the channel too.</span>
           </div>
           <div class="line">
-            <span class="who you">You</span><span class="txt">Linear, O(n) — single pass, O(1) space.</span>
+            <span class="who you">You</span><span class="txt">Perfect — the copilot just pulled up the runbook.</span>
           </div>
           <div class="caret" aria-hidden="true"></div>
         </div>
@@ -78,11 +78,11 @@
     border-radius: 20px;
     background: conic-gradient(
       from 120deg,
-      rgba(91, 140, 255, 0.55),
-      rgba(154, 123, 255, 0.35),
+      rgba(20, 184, 166, 0.55),
+      rgba(244, 63, 94, 0.35),
       transparent 45%,
       transparent 70%,
-      rgba(91, 140, 255, 0.45)
+      rgba(20, 184, 166, 0.45)
     );
     filter: blur(14px);
     opacity: 0.55;
@@ -253,7 +253,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(110deg, transparent 35%, rgba(91, 140, 255, 0.14) 50%, transparent 65%);
+    background: linear-gradient(110deg, transparent 35%, rgba(20, 184, 166, 0.16) 50%, transparent 65%);
     transform: translateX(-100%);
     animation: shimmer 4.5s var(--ease-out-expo) infinite;
     animation-delay: 1.2s;
@@ -317,7 +317,7 @@
     background: var(--accent);
     border-radius: 2px;
     opacity: 0.85;
-    box-shadow: 0 0 10px rgba(91, 140, 255, 0.7);
+    box-shadow: 0 0 10px rgba(20, 184, 166, 0.7);
     animation: blink 1.05s steps(2, start) infinite;
   }
   @keyframes blink {

@@ -41,7 +41,7 @@ img {
 }
 
 ::selection {
-  background: rgba(91, 140, 255, 0.28);
+  background: rgba(20, 184, 166, 0.32);
   color: #fff;
 }
 
@@ -94,7 +94,7 @@ img {
   height: 50vw;
   top: -22vw;
   right: -10vw;
-  background: radial-gradient(circle at center, var(--glow-blue), transparent 62%);
+  background: radial-gradient(circle at center, var(--glow-teal), transparent 62%);
   animation: aurora-a 22s var(--ease-out-expo) infinite alternate;
 }
 .glow::after {
@@ -102,7 +102,7 @@ img {
   height: 40vw;
   top: -10vw;
   left: -8vw;
-  background: radial-gradient(circle at center, var(--glow-violet), transparent 60%);
+  background: radial-gradient(circle at center, var(--glow-red), transparent 60%);
   animation: aurora-b 28s var(--ease-out-expo) infinite alternate;
 }
 @keyframes aurora-a {
@@ -197,8 +197,8 @@ img {
 .btn-ghost:hover {
   transform: translateY(-2px);
   border-color: var(--accent);
-  background: rgba(91, 140, 255, 0.08);
-  box-shadow: 0 10px 26px -16px rgba(91, 140, 255, 0.6);
+  background: rgba(20, 184, 166, 0.1);
+  box-shadow: 0 10px 26px -16px rgba(20, 184, 166, 0.6);
 }
 .btn-ghost:active {
   transform: translateY(0);

@@ -1,81 +1,83 @@
 ---
 /**
- * Practice mode: a HackerRank-style coding-assessment board (problem + skeleton
- * editor) on the left, and a mock-interviewer conversation panel on the right.
- * Editorial, grid-breaking composition — not a uniform card row.
+ * Onboarding surface: a "first-week playbook" / ramp-up checklist on the left,
+ * and a knowledge-capture panel on the right where the copilot turns what was
+ * said in a meeting into a reusable, sourced answer. Editorial, grid-breaking
+ * composition — not a uniform card row.
  */
-
-// Static, developer-authored syntax-highlighted skeleton. Rendered with set:html
-// because Astro's .astro parser treats raw `<pre>` content as JSX and chokes on
-// the `=>` arrow entity. No user input is involved.
-const editorHtml = `<span class="kw">function</span> <span class="fn">merge</span>(intervals) {
-  intervals.<span class="fn">sort</span>((a, b) =&gt; a[0] - b[0]);
-  <span class="cm">// TODO: fold overlapping ranges</span>
-  <span class="gap">▏</span>
-  <span class="kw">return</span> out;
-}`;
 ---
 
-<section id="practice">
+<section id="playbook">
   <div class="wrap">
-    <p class="kicker" data-reveal>Practice mode</p>
-    <h2 data-reveal>Rehearse the interview before it's real.</h2>
+    <p class="kicker" data-reveal>First-week playbook</p>
+    <h2 data-reveal>Turn week one into a guided ramp-up.</h2>
     <p class="lead" data-reveal>
-      Load a role and run a realistic dry-run — a mock interviewer that probes your answers, and a
-      coding-assessment board that feels like the real online test.
+      MacTranscribe builds a living playbook from your new hire's onboarding meetings — a checklist of
+      what they've covered, and instant, sourced answers pulled from the tribal knowledge that usually
+      never gets written down.
     </p>
 
     <div class="layout" data-reveal-group>
-      <!-- Coding assessment board -->
+      <!-- Ramp-up checklist -->
       <div class="board" data-reveal>
         <div class="board-bar">
-          <span class="tag">Coding Assessment</span>
-          <span class="meta">Question 2 / 3</span>
-          <span class="timer" aria-hidden="true">⏱ 28:14</span>
+          <span class="tag">Ramp-up checklist</span>
+          <span class="meta">Week 1 · Backend</span>
+          <span class="progress" aria-hidden="true">7 / 10 done</span>
         </div>
         <div class="board-body">
           <div class="prompt">
-            <h4>Merge Overlapping Intervals</h4>
+            <h4>Your first-week playbook</h4>
             <p>
-              Given an array of <code>intervals</code> where
-              <code>intervals[i] = [start, end]</code>, merge all overlapping intervals and return the
-              non-overlapping set covering all the input.
+              Auto-built from each onboarding session. Every topic your team walked you through gets
+              ticked off — and stays one click away.
             </p>
-            <ul class="cons">
-              <li><b>Constraints</b></li>
-              <li>1 ≤ intervals.length ≤ 10⁴</li>
-              <li>0 ≤ start ≤ end ≤ 10⁵</li>
+            <ul class="checks">
+              <li class="done"><span class="cb" aria-hidden="true">✓</span> Dev environment &amp; access</li>
+              <li class="done"><span class="cb" aria-hidden="true">✓</span> Branching &amp; deploy flow</li>
+              <li class="done"><span class="cb" aria-hidden="true">✓</span> Who owns which service</li>
+              <li class="done"><span class="cb" aria-hidden="true">✓</span> On-call &amp; incident process</li>
+              <li class="now"><span class="cb" aria-hidden="true">▸</span> Data model walkthrough</li>
+              <li><span class="cb cb-empty" aria-hidden="true"></span> Release sign-off &amp; QA</li>
+              <li><span class="cb cb-empty" aria-hidden="true"></span> First ticket pairing</li>
             </ul>
             <div class="io">
-              <div><span class="iolab">Sample input</span><code>[[1,3],[2,6],[8,10]]</code></div>
-              <div><span class="iolab">Expected</span><code>[[1,6],[8,10]]</code></div>
+              <div><span class="iolab">Captured from</span><code>Onboarding 1:1 · Tue</code></div>
+              <div><span class="iolab">Time to productive</span><code>day 4, not week 6</code></div>
             </div>
           </div>
-          <div class="editor" aria-hidden="true">
-            <div class="gutter">
-              <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+          <div class="aside" aria-hidden="true">
+            <div class="aside-lab">Saved answer</div>
+            <div class="ans-card">
+              <strong>How we ship to staging</strong>
+              <span>Merge to <em>main</em> → Argo auto-deploys → QA signs off in #releases before prod.</span>
+              <span class="src">source · Onboarding 1:1, Tue 10:14</span>
             </div>
-            <pre class="code" set:html={editorHtml}></pre>
+            <div class="ans-card">
+              <strong>Where the runbooks live</strong>
+              <span>Wiki → "Onboarding" → service runbooks. Billing owned by Team Atlas.</span>
+              <span class="gap">▏</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Mock interviewer -->
+      <!-- Knowledge-capture panel -->
       <div class="mock" data-reveal>
         <div class="mock-head">
-          <span class="avatar" aria-hidden="true">🗣️</span>
+          <span class="avatar" aria-hidden="true">✦</span>
           <div>
-            <strong>Mock interviewer</strong>
-            <span class="role">Senior Backend · System Design</span>
+            <strong>Onboarding copilot</strong>
+            <span class="role">Capturing · Data model walkthrough</span>
           </div>
         </div>
         <div class="thread">
-          <div class="msg them">Walk me through how you'd shard that intervals table at write time.</div>
-          <div class="msg you">I'd range-partition on <code>start</code> and keep a covering index…</div>
-          <div class="msg them">Good. What breaks when two writers hit the same boundary?</div>
+          <div class="msg them">…so reporting always reads from the replica, never the primary — that's the rule here.</div>
+          <div class="msg you">Ask: "Why never the primary for reporting?"</div>
+          <div class="msg them">Because heavy report queries used to lock writes. The replica keeps prod fast.</div>
           <div class="typing"><span></span><span></span><span></span></div>
         </div>
-        <p class="mock-note">One sharp follow-up at a time, grounded in what you just said.</p>
+        <p class="mock-note">Captures the "why" behind the rule — so the next new hire just gets the answer.</p>
       </div>
     </div>
   </div>
@@ -95,7 +97,7 @@ const editorHtml = `<span class="kw">function</span> <span class="fn">merge</spa
   .mock {
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
-    background: linear-gradient(180deg, #0f141c, #0b0e13);
+    background: linear-gradient(180deg, #0e1417, #0a0d0f);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -115,25 +117,25 @@ const editorHtml = `<span class="kw">function</span> <span class="fn">merge</spa
     gap: 12px;
     padding: 11px 16px;
     border-bottom: 1px solid var(--line);
-    background: #10151d;
+    background: #10171a;
     font-size: 12px;
   }
   .tag {
-    color: var(--accent-2);
+    color: var(--accent-ink);
     font-weight: 700;
     letter-spacing: 0.02em;
   }
   .meta {
     color: var(--faint);
   }
-  .timer {
+  .progress {
     margin-left: auto;
     color: var(--good);
     font-family: var(--font-mono);
   }
   .board-body {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.05fr 1fr;
     flex: 1;
   }
   .prompt {
@@ -151,19 +153,50 @@ const editorHtml = `<span class="kw">function</span> <span class="fn">merge</spa
     color: var(--dim);
     line-height: 1.6;
   }
-  .cons {
+  .checks {
     list-style: none;
     padding: 0;
-    margin: 0 0 14px;
-    font-size: 12px;
+    margin: 0 0 16px;
+    font-size: 12.5px;
     color: var(--dim);
-    line-height: 1.8;
+    display: grid;
+    gap: 9px;
   }
-  .cons b {
+  .checks li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .checks li.done {
     color: var(--faint);
-    text-transform: uppercase;
-    font-size: 10.5px;
-    letter-spacing: 0.5px;
+    text-decoration: line-through;
+    text-decoration-color: rgba(45, 212, 191, 0.4);
+  }
+  .checks li.now {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .cb {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 5px;
+    font-size: 10px;
+    color: var(--teal-300);
+    background: rgba(20, 184, 166, 0.14);
+    border: 1px solid rgba(20, 184, 166, 0.28);
+  }
+  .checks li.now .cb {
+    color: var(--rose);
+    background: rgba(244, 63, 94, 0.14);
+    border-color: rgba(244, 63, 94, 0.3);
+  }
+  .cb-empty {
+    color: transparent;
+    background: transparent;
+    border-color: var(--line-strong);
   }
   .io {
     display: grid;
@@ -180,42 +213,51 @@ const editorHtml = `<span class="kw">function</span> <span class="fn">merge</spa
     letter-spacing: 0.5px;
     color: var(--faint);
   }
-  .editor {
-    display: flex;
-    background: var(--bg);
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    line-height: 1.7;
-  }
-  .gutter {
+
+  /* ---- saved-answers aside ---- */
+  .aside {
     display: flex;
     flex-direction: column;
-    padding: 16px 10px 16px 14px;
+    gap: 12px;
+    padding: 18px;
+    background: var(--bg);
+  }
+  .aside-lab {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
     color: var(--faint);
-    text-align: right;
-    user-select: none;
-    border-right: 1px solid var(--line);
-    opacity: 0.6;
+    text-transform: uppercase;
   }
-  .code {
-    margin: 0;
-    padding: 16px;
-    color: #cdd6e4;
-    white-space: pre;
-    overflow-x: auto;
+  .ans-card {
+    position: relative;
+    background: linear-gradient(180deg, #121a1d, #0e1417);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
   }
-  .code .kw {
-    color: var(--accent-2);
+  .ans-card strong {
+    font-size: 13px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
   }
-  .code .fn {
-    color: var(--accent);
+  .ans-card span {
+    font-size: 12px;
+    color: var(--dim);
+    line-height: 1.5;
   }
-  .code .cm {
+  .ans-card .src {
+    font-family: var(--font-mono);
+    font-size: 10px;
     color: var(--faint);
-    font-style: italic;
   }
-  .code .gap {
-    color: var(--accent);
+  .ans-card .gap {
+    color: var(--teal-300);
+    font-family: var(--font-mono);
     animation: blink 1.05s steps(2, start) infinite;
   }
   @keyframes blink {
@@ -224,14 +266,14 @@ const editorHtml = `<span class="kw">function</span> <span class="fn">merge</spa
     }
   }
 
-  /* ---- mock interviewer ---- */
+  /* ---- knowledge-capture panel ---- */
   .mock-head {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 16px;
     border-bottom: 1px solid var(--line);
-    background: #10151d;
+    background: #10171a;
   }
   .avatar {
     width: 38px;
@@ -240,7 +282,8 @@ const editorHtml = `<span class="kw">function</span> <span class="fn">merge</spa
     display: grid;
     place-items: center;
     font-size: 18px;
-    background: radial-gradient(120% 120% at 30% 20%, rgba(154, 123, 255, 0.3), rgba(91, 140, 255, 0.12));
+    color: var(--teal-300);
+    background: radial-gradient(120% 120% at 30% 20%, rgba(20, 184, 166, 0.32), rgba(244, 63, 94, 0.14));
     border: 1px solid var(--line);
   }
   .mock-head strong {
@@ -273,7 +316,7 @@ const editorHtml = `<span class="kw">function</span> <span class="fn">merge</spa
     border-bottom-left-radius: 3px;
   }
   .msg.you {
-    background: linear-gradient(135deg, rgba(91, 140, 255, 0.22), rgba(154, 123, 255, 0.12));
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.22), rgba(244, 63, 94, 0.14));
     border: 1px solid var(--line-strong);
     color: var(--ink);
     align-self: flex-end;
@@ -318,7 +361,7 @@ const editorHtml = `<span class="kw">function</span> <span class="fn">merge</spa
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .code .gap,
+    .ans-card .gap,
     .typing span {
       animation: none;
     }

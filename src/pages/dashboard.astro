@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import { DOWNLOAD_URL } from '../lib/constants';
 import { hasEnv } from '../lib/env';
 
 const session = Astro.locals.session;
@@ -11,11 +10,12 @@ if (!session) {
 const justUpgraded = Astro.url.searchParams.get('upgraded') === '1';
 const paypalEnabled = hasEnv('PAYPAL_CLIENT_ID', 'PAYPAL_PLAN_ID');
 
-// A simple deterministic license token derived from the user's subject. Real
-// license issuance lives in the app/backend; this gives Pro users something to
-// paste during the beta.
-const licenseSeed = session.sub || session.email;
-const license = `MT-PRO-${Buffer.from(licenseSeed).toString('base64url').slice(0, 18).toUpperCase()}`;
+// A simple deterministic workspace token derived from the user's subject. Real
+// team-workspace provisioning lives in the app/backend; this gives Pro users a
+// shareable team code to enter during the beta so new hires join the same
+// onboarding knowledge base.
+const codeSeed = session.sub || session.email;
+const teamCode = `MT-TEAM-${Buffer.from(codeSeed).toString('base64url').slice(0, 18).toUpperCase()}`;
 ---
 
 <Base title="Dashboard — MacTranscribe">
@@ -39,14 +39,20 @@ const license = `MT-PRO-${Buffer.from(licenseSeed).toString('base64url').slice(0
           session.isPro ? (
             <>
               <article class="panel" data-reveal>
-                <h3>Your Pro license</h3>
-                <p class="muted">Paste this in the app under Settings → Account to unlock Pro features.</p>
-                <code class="license">{license}</code>
+                <h3>Your team onboarding code</h3>
+                <p class="muted">
+                  Share this with new hires — they enter it in the app under Settings → Team to join
+                  your shared onboarding knowledge base.
+                </p>
+                <code class="license">{teamCode}</code>
               </article>
               <article class="panel" data-reveal>
-                <h3>Download the latest build</h3>
-                <p class="muted">Notarized macOS app, Apple Silicon. Pro users get priority builds.</p>
-                <a class="btn btn-primary" href={DOWNLOAD_URL} rel="noopener">↓ Download for macOS</a>
+                <h3>Set up onboarding</h3>
+                <p class="muted">
+                  Build role-based ramp-up playbooks and reusable answer packs so every new hire ramps
+                  up the same way. Pro teams get priority builds.
+                </p>
+                <a class="btn btn-primary" href="/#playbook">Open the playbook</a>
               </article>
             </>
           ) : (
@@ -54,8 +60,8 @@ const license = `MT-PRO-${Buffer.from(licenseSeed).toString('base64url').slice(0
               <article class="panel" data-reveal>
                 <h3>You're on the Free plan</h3>
                 <p class="muted">
-                  Live transcription, the copilot on your own keys, screen OCR, and the
-                  coding-assessment board — all free.
+                  Live meeting capture, the copilot on your own keys, screen OCR, and a personal
+                  first-week playbook — all free for one new hire.
                 </p>
                 <a class="btn btn-primary" href="/pricing">Upgrade to Pro — $12/mo</a>
                 {paypalEnabled && (
@@ -63,9 +69,12 @@ const license = `MT-PRO-${Buffer.from(licenseSeed).toString('base64url').slice(0
                 )}
               </article>
               <article class="panel" data-reveal>
-                <h3>Download the app</h3>
-                <p class="muted">The Free tier needs nothing but the app and your AI key.</p>
-                <a class="btn btn-ghost" href={DOWNLOAD_URL} rel="noopener">↓ Download for macOS</a>
+                <h3>Get started</h3>
+                <p class="muted">
+                  Open MacTranscribe in your new hire's first onboarding meeting — the Free tier needs
+                  nothing but the app and your AI key.
+                </p>
+                <a class="btn btn-ghost" href="/#playbook">See how onboarding works</a>
               </article>
             </>
           )
