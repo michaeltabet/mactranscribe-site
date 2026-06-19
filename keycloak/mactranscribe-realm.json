@@ -1,0 +1,48 @@
+{
+  "_comment": "Versioned Keycloak realm for MacTranscribe paid tier. Import-ready, NOT auto-applied to production. Import with: kcadm.sh create realms -f mactranscribe-realm.json  (or the Keycloak admin UI > Create realm > import). Set the CHANGE_ME secret and grant the billing service account 'manage-users' before going live.",
+  "realm": "mactranscribe",
+  "enabled": true,
+  "displayName": "MacTranscribe",
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": true,
+  "resetPasswordAllowed": true,
+  "loginWithEmailAllowed": true,
+  "verifyEmail": true,
+  "sslRequired": "external",
+  "roles": {
+    "realm": [
+      { "name": "free", "description": "Free tier (default for every new signup)" },
+      { "name": "pro", "description": "Paid Pro tier — set by the billing webhook on successful Stripe/PayPal payment" }
+    ]
+  },
+  "groups": [
+    { "name": "free", "realmRoles": ["free"] },
+    { "name": "pro", "realmRoles": ["pro"] }
+  ],
+  "defaultGroups": ["/free"],
+  "clients": [
+    {
+      "clientId": "mactranscribe-app",
+      "name": "MacTranscribe desktop app",
+      "description": "Public PKCE client the macOS app authenticates with.",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": ["mactranscribe://auth/callback", "http://127.0.0.1:*/callback"],
+      "webOrigins": ["+"],
+      "attributes": { "pkce.code.challenge.method": "S256" }
+    },
+    {
+      "clientId": "mactranscribe-billing",
+      "name": "Billing webhook service",
+      "description": "Confidential service-account client. Grant it the 'manage-users' realm-management role so it can assign the 'pro' role after a payment. Set the secret below before import.",
+      "enabled": true,
+      "publicClient": false,
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "secret": "CHANGE_ME_BEFORE_IMPORT"
+    }
+  ]
+}

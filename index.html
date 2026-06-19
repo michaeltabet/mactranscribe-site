@@ -104,6 +104,11 @@
   .feat h3{margin:0 0 8px;font-size:17px;letter-spacing:-.01em}
   .feat p{margin:0;color:var(--dim);font-size:14px;line-height:1.6}
   .feat.span2{grid-column:span 2}
+  .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:44px}
+  .price{font-size:42px;font-weight:760;letter-spacing:-.03em}
+  .price span{font-size:16px;color:var(--dim);font-weight:500}
+  .plist{list-style:none;padding:0;margin:0 0 22px;font-size:14px;line-height:2.05}
+  @media(max-width:860px){.pgrid{grid-template-columns:1fr}}
 
   /* download */
   .download{position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;
@@ -137,6 +142,7 @@
   <div class="links">
     <a href="#features">Features</a>
     <a href="#practice">Practice</a>
+    <a href="#pricing">Pricing</a>
     <a href="#download">Download</a>
   </div>
   <a class="btn btn-primary" href="#download">Download</a>
@@ -202,6 +208,47 @@
   <div class="grid">
     <div class="feat span2"><div class="ic">🧪</div><h3>Coding-assessment board</h3><p>A HackerRank-style board with problem statement, objectives, constraints, sample I/O, and a skeleton editor with the gaps to fill — tuned to the role you're prepping. Practice the writeup, the complexity, the talk-track.</p></div>
     <div class="feat"><div class="ic">🗣️</div><h3>Mock interviewer</h3><p>Speaks like a real interviewer — one sharp follow-up at a time, grounded in what you just said.</p></div>
+  </div>
+</div></section>
+
+<section id="pricing"><div class="wrap">
+  <div class="kicker">Pricing</div>
+  <h2>Start free. Go Pro when you mean it.</h2>
+  <p class="lead">The app runs free on your own AI keys. Pro adds the hosted extras — sync, the per-role practice console, and priority builds.</p>
+  <div class="pgrid">
+    <div class="feat" style="display:flex;flex-direction:column">
+      <div class="kicker" style="margin-bottom:10px">Free</div>
+      <div class="price">$0</div>
+      <p style="color:var(--dim);font-size:14px;margin:6px 0 18px">Forever. Bring your own AI keys.</p>
+      <ul class="plist" style="color:var(--dim)">
+        <li>✓ Live transcription + copilot</li>
+        <li>✓ On-device screen OCR</li>
+        <li>✓ Coding-assessment board</li>
+        <li>✓ Your models, your keys</li>
+      </ul>
+      <div style="flex:1"></div>
+      <a class="btn btn-ghost" href="#download">Download free</a>
+    </div>
+    <div class="feat" style="display:flex;flex-direction:column;border-color:#2c3645;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(80% 60% at 80% 0,rgba(91,140,255,.14),transparent 60%);pointer-events:none"></div>
+      <div class="kicker" style="margin-bottom:10px;color:var(--accent2)">Pro</div>
+      <div class="price">$12<span>/mo</span></div>
+      <p style="color:var(--dim);font-size:14px;margin:6px 0 18px">Everything in Free, plus the hosted extras.</p>
+      <ul class="plist" style="color:var(--ink)">
+        <li>★ Cloud session sync</li>
+        <li>★ Hosted practice console (per-role)</li>
+        <li>★ Premium prompt packs</li>
+        <li>★ Priority notarized builds</li>
+      </ul>
+      <div style="flex:1"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <!-- TODO: replace href with YOUR Stripe Payment Link (dashboard.stripe.com > Payment links) -->
+        <a class="btn btn-primary" style="flex:1;justify-content:center" href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_PAYMENT_LINK">Pay with card</a>
+        <!-- TODO: replace href with YOUR PayPal button/link -->
+        <a class="btn btn-ghost" style="flex:1;justify-content:center" href="https://www.paypal.com/REPLACE_WITH_YOUR_PAYPAL_LINK">PayPal</a>
+      </div>
+      <p class="note" style="margin-top:12px">After payment you'll get a sign-in to unlock Pro in the app.</p>
+    </div>
   </div>
 </div></section>
 
